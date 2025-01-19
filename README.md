@@ -16,5 +16,7 @@ Tarkoituksena on tehdä sovellus autojen myyntiä/vuokrausta varten.
  -Tarjolla olevia autoja voi myös etsiä hakusanalla.
  
  -Sivustolla on käyttäjälle oma sivu missä on vaikkapa omat myynti-ilmoitukset, juuri tarjotut kohteet ja ostetut kohteet.
+
+ -Tarjolla olevia kohteita voi kommentoida, myyjälle voi lähettää henkilökohtaisen viestin.
  
  
