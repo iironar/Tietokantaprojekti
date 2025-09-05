@@ -1,11 +1,11 @@
 # Tietokantaprojekti
-Tarkoituksena on tehdä sovellus autojen myyntiä/vuokrausta varten.
+Tarkoituksena on tehdä sovellus autojen myyntiä varten.
 
  -Käyttäjä voi luoda tunnuksen sivustolle
  
- -Käyttäjä voi hallinnoida omia myynti tai vuokrausilmoituksia.
+ -Käyttäjä voi hallinnoida omia myynti-ilmoituksia.
  
- -Käyttäjä voi asettaa tarjouksia myynti-ilmoituksiin tai vuokrausilmoituksiin.
+ -Käyttäjä voi asettaa tarjouksia myynti-ilmoituksiin.
  
  -Ilmoituksiin voi lisätä kuvan
  
