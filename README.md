@@ -7,7 +7,7 @@ Tarkoituksena on tehdä sovellus autojen myyntiä/vuokrausta varten.
  
  -Käyttäjä voi asettaa tarjouksia myynti-ilmoituksiin tai vuokrausilmoituksiin.
  
- -Ilmoituksiin voi lisätä kuvan.
+ -Ilmoituksiin voi lisätä kuvan
  
  -Tarjolla olevia autoja voi selailla ja luokitella.
  
