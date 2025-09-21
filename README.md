@@ -1,7 +1,10 @@
 # Tietokantaprojekti
 
 ## Tähän mennessä toteutettu toiminnallisuus:
+
+
  -Käyttäjä voi luoda tunnuksen sivustolle
+ 
  -Käyttäjä voi luoda myynti-ilmoituksen sivustolle
 
  
@@ -10,8 +13,7 @@
 
 ## Suunnitteilla oleva toiminnallisuus:
 
- -Käyttäjä voi luoda tunnuksen sivustolle
- 
+
  -Käyttäjä voi hallinnoida omia myynti-ilmoituksia.
  
  -Käyttäjä voi asettaa tarjouksia myynti-ilmoituksiin.
