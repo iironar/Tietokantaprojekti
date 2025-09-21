@@ -1,5 +1,14 @@
 # Tietokantaprojekti
-Tarkoituksena on tehdä sovellus autojen myyntiä varten.
+
+## Tähän mennessä toteutettu toiminnallisuus:
+ -Käyttäjä voi luoda tunnuksen sivustolle
+ -Käyttäjä voi luoda myynti-ilmoituksen sivustolle
+
+ 
+
+
+
+## Suunnitteilla oleva toiminnallisuus:
 
  -Käyttäjä voi luoda tunnuksen sivustolle
  
