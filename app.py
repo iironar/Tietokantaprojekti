@@ -14,15 +14,12 @@ def index():
     all_items = items.get_items()
     return render_template("index.html", items = all_items)
 
-
+#Shows specific item when clicked on the frontpage
 @app.route("/item/<int:item_id>")
 def show_item(item_id):
     item = items.get_item(item_id)
     return render_template("show_item.html", item=item)
     
-
-    
-
 @app.route("/new_item")
 def new_item():
     return render_template("new_item.html")
@@ -36,8 +33,23 @@ def create_item():
     
     items.add_item(title,description,price,user_id)
     
-    
     return redirect("/")
+
+@app.route("/update_item", methods=["POST"])
+def update_item():
+    item_id = request.form["item_id"]
+    title = request.form["title"]
+    price = request.form["price"]
+    description = request.form["description"]
+    
+    items.update_item(item_id, title, description, price)
+    
+    return redirect("/item/" + str(item_id))
+
+@app.route("/edit_item/<int:item_id>")
+def edit_item(item_id):
+    item = items.get_item(item_id)
+    return render_template("edit_item.html", item=item)
 
 @app.route("/login", methods=["GET","POST"])
 def login():
