@@ -21,7 +21,13 @@
      <a><a href="/new_item"> Luo myynti-ilmoitus </a>
 
   </p>
-  <h2>  </h2>
+  <h2> Myynti-ilmoitukset </h2>
+  <ul> 
+  {% for item in items %}
+  <li> <a href="/item/{{ item.id }}">{{ item.title }}</a> </li> 
+  {% endfor %}
+  </ul>
+
 </body>
 
 </html>

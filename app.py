@@ -1,6 +1,6 @@
 import sqlite3
 from flask import Flask
-from flask import redirect, render_template, request,session
+from flask import redirect, render_template, request,session,flash,url_for
 from werkzeug.security import check_password_hash ,generate_password_hash
 import config
 import db
@@ -11,8 +11,16 @@ app.secret_key = config.secret_key
 
 @app.route("/")
 def index():
+    all_items = items.get_items()
+    return render_template("index.html", items = all_items)
+
+
+@app.route("/item/<int:item_id>")
+def show_item(item_id):
+    item = items.get_item(item_id)
+    return render_template("show_item.html", item=item)
     
-    return render_template("index.html")
+
     
 
 @app.route("/new_item")
@@ -53,7 +61,8 @@ def login():
             session["username"] = username
             return redirect("/")
         else:
-            return "VIRHE: väärä tunnus tai salasana"
+            flash('Salasana tai käyttäjänimi on virheellinen')
+            return render_template("login.html")
 
 @app.route("/logout")
 def logout():
@@ -64,6 +73,8 @@ def logout():
 @app.route("/register")
 def register():
     return render_template("register.html")
+
+#TODO: IMPELEMENT ERROR MESSAGES WITH FLASK FLASH PLUGIN
 
 @app.route("/create", methods=["POST"])
 def create():
@@ -77,7 +88,9 @@ def create():
     try:
         sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
         db.execute(sql, [username, password_hash])
+        
     except sqlite3.IntegrityError:
-        return "VIRHE: tunnus on jo käytössä"
+            flash('Käyttäjänimi on jo olemassa',"error")
+            return render_template("register.html")
 
     return "Tunnus luotu"
