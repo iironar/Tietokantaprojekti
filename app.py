@@ -33,10 +33,13 @@ def show_item(item_id):
     
 @app.route("/new_item")
 def new_item():
+    check_login()
     return render_template("new_item.html")
 
 @app.route("/create_item", methods=["POST"])
 def create_item():
+    check_login()
+    
     title = request.form["title"]
     price = request.form["price"]
     description = request.form["description"]
@@ -48,6 +51,7 @@ def create_item():
 
 @app.route("/update_item", methods=["POST"])
 def update_item():
+    check_login()
     item_id = request.form["item_id"]
     item = items.get_item(item_id)
     
@@ -64,6 +68,7 @@ def update_item():
 
 @app.route("/edit_item/<int:item_id>")
 def edit_item(item_id):
+    check_login()
     item = items.get_item(item_id)
     doesItemExist(item)
     checkForbiddenAccess(item)   
@@ -71,6 +76,7 @@ def edit_item(item_id):
 
 @app.route("/remove_item/<int:item_id>", methods=["GET","POST"])
 def remove_item(item_id):
+    check_login()
     item = items.get_item(item_id)
     checkForbiddenAccess(item)
     doesItemExist(item)
@@ -115,8 +121,9 @@ def login():
 
 @app.route("/logout")
 def logout():
-    del session["username"]
-    del session["user_id"]
+    if "user_id" in session:
+        del session["username"]
+        del session["user_id"]
     return redirect("/")
 
 @app.route("/register")
@@ -151,6 +158,10 @@ def checkForbiddenAccess(item):
 def doesItemExist(item):
     if not item:
         abort(404)
+
+def check_login():
+    if "user_id" not in session:
+        abort(403)        
             
 
 
