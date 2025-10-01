@@ -1,8 +1,14 @@
 import db
 
-def add_item(title,description,price,user_id):
+def add_item(title,description,price,user_id,classes):
     sql = "INSERT INTO items (title, price, description, user_id) VALUES (?, ?, ?, ?)"
     db.execute(sql, [title, price, description, user_id])
+    sql = "INSERT INTO item_classes (item_id, title, value) VALUES (?, ?, ?)"
+    
+    item_id = db.last_insert_id()
+    for title, value in classes:
+        db.execute(sql ,[item_id ,title ,value])
+        
 
 
 def get_items():
@@ -43,7 +49,10 @@ def find_items(query):
     like = "%" + query + "%"
     return db.query(sql, [like,like])
 
-                          
+def get_classes(item_id):
+    sql = "SELECT title, value FROM item_classes WHERE item_id = ?"
+    return db.query(sql, [item_id])
+                              
                      
     
          

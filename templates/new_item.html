@@ -8,9 +8,31 @@
 <body>
     <h1>Myynti-ilmoitus</h1> 
   <form action="/create_item" method="post">
+
     <p>
-      Malli: <br />
+      Tyyppi: <br />
+      <select name = "type">
+        <option value = "" >tyyppi</option>
+        <option value = "Henkilöauto" >Henkilöauto</option>
+        <option value = "Pakettiauto" >Pakettiauto</option>
+        <option value = "Kuorma-auto" >Kuorma-auto </option>
+        <option value = "Moottoripyörä" >Moottoripyörä</option>
+        <option value = "Mopo" >Mopo</option>
+        <option value = "Perävaunu" >Perävaunu</option>
+      </select>
+    </p>
+
+    <p>
+      Merkki: <br />
       <input type="text" name="title" maxlength="60" required />
+    </p>
+        <p>
+      Vaihteisto: <br />
+        <select name = "transmission">
+        <option value = "" >vaihteisto</option>
+        <option value = "Manuaali" >Manuaali</option>
+        <option value = "Automaatti" >Automaatti</option>
+        </select>
     </p>
     <p>
         Hinta: <br />
@@ -23,6 +45,9 @@
 
     <input type="submit" value="Luo ilmoitus" />
   </form>
+    <p>
+        <a href="/">Takaisin</a>
+    </p>
 </body>
 
 </html>

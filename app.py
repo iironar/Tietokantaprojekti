@@ -1,7 +1,6 @@
 import sqlite3
 from flask import Flask
 from flask import redirect, abort, render_template, request,session,flash,url_for
-from werkzeug.security import check_password_hash ,generate_password_hash
 import config
 import db
 import items
@@ -35,12 +34,14 @@ def find_item():
         results = []
     return render_template("find_item.html", query=query,results=results)
 
-#Shows specific item when clicked on at the frontpage
+#Shows specific item and information related to it
 @app.route("/item/<int:item_id>")
 def show_item(item_id):
     item = items.get_item(item_id)
+    
     doesItemExist(item)
-    return render_template("show_item.html", item=item)
+    classes = items.get_classes(item_id)
+    return render_template("show_item.html", item=item,classes=classes)
     
 @app.route("/new_item")
 def new_item():
@@ -62,7 +63,15 @@ def create_item():
         abort(403)
     user_id = session["user_id"]
     
-    items.add_item(title,description,price,user_id)
+    classes = []
+    type = request.form["type"]
+    if type:
+        classes.append(("tyyppi", type)) 
+    transmission = request.form["transmission"]
+    if transmission:
+        classes.append(("vaihteisto", transmission)) 
+    
+    items.add_item(title,description,price,user_id, classes)
     
     return redirect("/")
 
