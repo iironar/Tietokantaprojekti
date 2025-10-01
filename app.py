@@ -28,6 +28,7 @@ def find_item():
 @app.route("/item/<int:item_id>")
 def show_item(item_id):
     item = items.get_item(item_id)
+    doesItemExist(item)
     return render_template("show_item.html", item=item)
     
 @app.route("/new_item")
@@ -49,8 +50,9 @@ def create_item():
 def update_item():
     item_id = request.form["item_id"]
     item = items.get_item(item_id)
-    if item["user_id"] != session["user_id"]:
-        abort(403)
+    
+    checkForbiddenAccess(item)
+    doesItemExist(item)
         
     title = request.form["title"]
     price = request.form["price"]
@@ -63,16 +65,15 @@ def update_item():
 @app.route("/edit_item/<int:item_id>")
 def edit_item(item_id):
     item = items.get_item(item_id)
-    if item["user_id"] != session["user_id"]:
-        abort(403)
+    doesItemExist(item)
+    checkForbiddenAccess(item)   
     return render_template("edit_item.html", item=item)
 
 @app.route("/remove_item/<int:item_id>", methods=["GET","POST"])
 def remove_item(item_id):
     item = items.get_item(item_id)
-    if item["user_id"] != session["user_id"]:
-        abort(403)
-    
+    checkForbiddenAccess(item)
+    doesItemExist(item)
     if request.method == "GET":
         item = items.get_item(item_id)
         return render_template("remove_item.html", item=item)
@@ -142,3 +143,15 @@ def create():
             return render_template("register.html")
 
     return "Tunnus luotu"
+
+def checkForbiddenAccess(item):
+    if item["user_id"] != session["user_id"]:
+        abort(403)
+
+def doesItemExist(item):
+    if not item:
+        abort(404)
+            
+
+
+      
