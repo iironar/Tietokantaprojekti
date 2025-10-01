@@ -42,13 +42,13 @@ def create_item():
     check_login()
     
     title = request.form["title"]
-    if len(title) > 60:
+    if not title or len(title) > 60:
         abort(403)    
     price = request.form["price"]
-    if not re.search("^[1-9][1-9](0,9)$", price):
+    if not re.search("^[1-9][0-9]{0,9}$", price):
         abort(403)
     description = request.form["description"]
-    if len(description) > 1000:
+    if not description or len(description) > 1000:
         abort(403)
     user_id = session["user_id"]
     
@@ -66,9 +66,14 @@ def update_item():
     doesItemExist(item)
         
     title = request.form["title"]
+    if not title or len(title) > 60:
+        abort(403)
     price = request.form["price"]
+    if not re.search("^[1-9][0-9]{0,9}$", price):
+        abort(403)    
     description = request.form["description"]
-    
+    if not description or len(description) > 1000:
+        abort(403)
     items.update_item(item_id, title, description, price)
     
     return redirect("/item/" + str(item_id))
