@@ -40,7 +40,9 @@ def find_items(query):
              WHERE title LIKE ? OR description LIKE ?
              ORDER BY id DESC"""  
     like = "%" + query + "%"
-    return db.query(sql, [like,like])                          
+    return db.query(sql, [like,like])
+
+                          
                      
     
          

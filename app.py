@@ -1,6 +1,6 @@
 import sqlite3
 from flask import Flask
-from flask import redirect, render_template, request,session,flash,url_for
+from flask import redirect, abort, render_template, request,session,flash,url_for
 from werkzeug.security import check_password_hash ,generate_password_hash
 import config
 import db
@@ -48,6 +48,10 @@ def create_item():
 @app.route("/update_item", methods=["POST"])
 def update_item():
     item_id = request.form["item_id"]
+    item = items.get_item(item_id)
+    if item["user_id"] != session["user_id"]:
+        abort(403)
+        
     title = request.form["title"]
     price = request.form["price"]
     description = request.form["description"]
@@ -59,10 +63,15 @@ def update_item():
 @app.route("/edit_item/<int:item_id>")
 def edit_item(item_id):
     item = items.get_item(item_id)
+    if item["user_id"] != session["user_id"]:
+        abort(403)
     return render_template("edit_item.html", item=item)
 
 @app.route("/remove_item/<int:item_id>", methods=["GET","POST"])
 def remove_item(item_id):
+    item = items.get_item(item_id)
+    if item["user_id"] != session["user_id"]:
+        abort(403)
     
     if request.method == "GET":
         item = items.get_item(item_id)
@@ -77,7 +86,7 @@ def remove_item(item_id):
              
          
 
-
+#If theres no user throws index out of range error
 @app.route("/login", methods=["GET","POST"])
 def login():
     
@@ -100,7 +109,7 @@ def login():
             session["username"] = username
             return redirect("/")
         else:
-            flash('Salasana tai käyttäjänimi on virheellinen')
+            
             return render_template("login.html")
 
 @app.route("/logout")
@@ -113,7 +122,7 @@ def logout():
 def register():
     return render_template("register.html")
 
-#TODO: IMPELEMENT ERROR MESSAGES WITH FLASK FLASH PLUGIN
+
 
 @app.route("/create", methods=["POST"])
 def create():
@@ -129,7 +138,7 @@ def create():
         db.execute(sql, [username, password_hash])
         
     except sqlite3.IntegrityError:
-            flash('Käyttäjänimi on jo olemassa',"error")
+            
             return render_template("register.html")
 
     return "Tunnus luotu"
