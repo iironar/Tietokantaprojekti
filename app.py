@@ -6,6 +6,7 @@ import config
 import db
 import items
 import re
+import users
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -14,6 +15,15 @@ app.secret_key = config.secret_key
 def index():
     all_items = items.get_items()
     return render_template("index.html", items = all_items)
+
+#Shows user page
+@app.route("/user/<int:user_id>")
+def show_user(user_id):
+    user = users.get_user(user_id)
+    if not user:
+        abort(404)
+    items = users.get_items(user_id)
+    return render_template("show_user.html", user=user,items=items)
 
 @app.route("/find_item")
 def find_item():
@@ -34,12 +44,12 @@ def show_item(item_id):
     
 @app.route("/new_item")
 def new_item():
-    check_login()
+    require_login()
     return render_template("new_item.html")
 
 @app.route("/create_item", methods=["POST"])
 def create_item():
-    check_login()
+    require_login()
     
     title = request.form["title"]
     if not title or len(title) > 60:
@@ -58,7 +68,7 @@ def create_item():
 
 @app.route("/update_item", methods=["POST"])
 def update_item():
-    check_login()
+    require_login()
     item_id = request.form["item_id"]
     item = items.get_item(item_id)
     
@@ -80,7 +90,7 @@ def update_item():
 
 @app.route("/edit_item/<int:item_id>")
 def edit_item(item_id):
-    check_login()
+    require_login()
     item = items.get_item(item_id)
     doesItemExist(item)
     checkForbiddenAccess(item)   
@@ -88,7 +98,7 @@ def edit_item(item_id):
 
 @app.route("/remove_item/<int:item_id>", methods=["GET","POST"])
 def remove_item(item_id):
-    check_login()
+    require_login()
     item = items.get_item(item_id)
     checkForbiddenAccess(item)
     doesItemExist(item)
@@ -116,14 +126,10 @@ def login():
         
         username = request.form["username"]
         password = request.form["password"]
-        
-        sql = "SELECT id, password_hash FROM users WHERE username = ?"
-        result = db.query(sql, [username])[0]
-        user_id = result["id"]
-        password_hash = result["password_hash"]
-        
 
-        if check_password_hash(password_hash, password):
+        user_id = users.check_login(username, password)
+        
+        if user_id:
             session["user_id"] = user_id 
             session["username"] = username
             return redirect("/")
@@ -151,15 +157,11 @@ def create():
     password2 = request.form["password2"]
     if password1 != password2:
         return "VIRHE: salasanat eivät täsmää"
-    password_hash = generate_password_hash(password1)
-
+    
     try:
-        sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
-        db.execute(sql, [username, password_hash])
-        
+        users.create_user(username, password1)
     except sqlite3.IntegrityError:
-            
-            return render_template("register.html")
+        return "Virhe: Tunnus on jo olemassa"    
 
     return "Tunnus luotu"
 
@@ -171,7 +173,7 @@ def doesItemExist(item):
     if not item:
         abort(404)
 
-def check_login():
+def require_login():
     if "user_id" not in session:
         abort(403)        
             
