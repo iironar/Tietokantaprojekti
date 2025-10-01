@@ -5,6 +5,7 @@ from werkzeug.security import check_password_hash ,generate_password_hash
 import config
 import db
 import items
+import re
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -41,8 +42,14 @@ def create_item():
     check_login()
     
     title = request.form["title"]
+    if len(title) > 60:
+        abort(403)    
     price = request.form["price"]
+    if not re.search("^[1-9][1-9](0,9)$", price):
+        abort(403)
     description = request.form["description"]
+    if len(description) > 1000:
+        abort(403)
     user_id = session["user_id"]
     
     items.add_item(title,description,price,user_id)
