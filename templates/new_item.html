@@ -9,30 +9,21 @@
     <h1>Myynti-ilmoitus</h1> 
   <form action="/create_item" method="post">
 
+    {% for class in classes %}
     <p>
-      Tyyppi: <br />
-      <select name = "type">
-        <option value = "" >tyyppi</option>
-        <option value = "Henkilöauto" >Henkilöauto</option>
-        <option value = "Pakettiauto" >Pakettiauto</option>
-        <option value = "Kuorma-auto" >Kuorma-auto </option>
-        <option value = "Moottoripyörä" >Moottoripyörä</option>
-        <option value = "Mopo" >Mopo</option>
-        <option value = "Perävaunu" >Perävaunu</option>
+      {{ class }}: <br />
+      <select name="classes">
+        <option value="">(valitse)</option>
+      {%for option in classes[class] %}
+         <option value ="{{ class }}:{{ option }}">{{option}}</option>
+      {% endfor %}  
       </select>
+      
     </p>
-
+    {% endfor %}
     <p>
       Merkki: <br />
       <input type="text" name="title" maxlength="60" required />
-    </p>
-        <p>
-      Vaihteisto: <br />
-        <select name = "transmission">
-        <option value = "" >vaihteisto</option>
-        <option value = "Manuaali" >Manuaali</option>
-        <option value = "Automaatti" >Automaatti</option>
-        </select>
     </p>
     <p>
         Hinta: <br />

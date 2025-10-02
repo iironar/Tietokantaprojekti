@@ -5,7 +5,17 @@
 
  -Käyttäjä voi luoda tunnuksen sivustolle
  
- -Käyttäjä voi luoda myynti-ilmoituksen sivustolle
+ -Käyttäjä voi luoda myynti-ilmoituksen sivustolle, joita voi myös jälkeenpäin muokata ja poistaa
+
+ -Käyttäjällä on oma sivu jossa kerrotaan myynti-ilmoitusten määrä, jotka ovat myös näkyvillä
+
+ -myynti-ilmoituksille voi asettaa luokkia
+
+ -Etusivulla on näkymä sovelluksessa olevista myynti-ilmoituksista
+
+ -Myynti-ilmoituksilla on omat sivut, jossa on ilmoituksen informaatiota
+
+ -Myynti-ilmoituksia voi hakea hakusanoilla
 
 
  ## Sovelluksen testaus:
@@ -18,7 +28,7 @@
 
  -nyt aja komento "git clone https://github.com/iironar/Tietokantaprojekti.git" kansion sisällä.
 
- -nyt sovelluksen pitäisi käynnistyä osoitteeseen 127.0.0.1:5000 ajamalla komento "flask run".
+ -nyt sovelluksen pitäisi käynnistyä selaimen osoitteeseen 127.0.0.1:5000 ajamalla komento "flask run".
  
 
 
