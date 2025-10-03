@@ -4,6 +4,14 @@ CREATE TABLE users (
     password_hash TEXT
 );
 
+CREATE TABLE bids (
+    id INTEGER PRIMARY KEY,
+    item_id INTEGER REFERENCES items,
+    user_id INTEGER REFERENCES users,
+    price INTEGER
+
+);
+
 CREATE TABLE items (
     id INTEGER PRIMARY KEY,
     title TEXT,

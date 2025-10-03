@@ -10,6 +10,16 @@ import users
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
+def require_login():
+    if "user_id" not in session:
+        abort(403)
+
+def forbiddenAccess():
+    abort(403)  
+
+def notFound():
+    abort(404)  
+
 @app.route("/")
 def index():
     all_items = items.get_items()
@@ -20,7 +30,7 @@ def index():
 def show_user(user_id):
     user = users.get_user(user_id)
     if not user:
-        abort(404)
+        notFound()
     items = users.get_items(user_id)
     return render_template("show_user.html", user=user,items=items)
 
@@ -39,9 +49,11 @@ def find_item():
 def show_item(item_id):
     item = items.get_item(item_id)
     
-    doesItemExist(item)
+    if not item:
+        notFound()
     classes = items.get_classes(item_id)
-    return render_template("show_item.html", item=item,classes=classes)
+    bids = items.get_bids(item_id)
+    return render_template("show_item.html", item=item,classes=classes, bids=bids)
     
 @app.route("/new_item")
 def new_item():
@@ -55,13 +67,13 @@ def create_item():
     
     title = request.form["title"]
     if not title or len(title) > 60:
-        abort(403)    
+        forbiddenAccess()    
     price = request.form["price"]
     if not re.search("^[1-9][0-9]{0,9}$", price):
-        abort(403)
+        forbiddenAccess()
     description = request.form["description"]
     if not description or len(description) > 1000:
-        abort(403)
+        forbiddenAccess()
     user_id = session["user_id"]
     
     all_classes = items.get_all_classes()
@@ -71,14 +83,32 @@ def create_item():
         if entry:
             class_title, class_value = entry.split(":")
             if class_title not in all_classes:
-                abort(403)
+                forbiddenAccess()
             if class_value not in all_classes[class_title]:
-                abort(403)    
+                forbiddenAccess()   
             classes.append((class_title, class_value))
 
     items.add_item(title,description,price,user_id, classes)
     
     return redirect("/")
+
+@app.route("/create_bid", methods=["POST"])
+def create_bid():
+    require_login()
+    
+    price = request.form["price"]
+    if not re.search("^[1-9][0-9]{0,9}$", price):
+        forbiddenAccess()
+    item_id = request.form["item_id"]
+    item = items.get_item(item_id)
+    
+    if not item:
+        notFound()    
+        
+    user_id = session["user_id"]
+    items.add_bid(item_id, user_id, price)
+    
+    return redirect("/item/" + str(item_id))
 
 @app.route("/update_item", methods=["POST"])
 def update_item():
@@ -86,18 +116,20 @@ def update_item():
     item_id = request.form["item_id"]
     item = items.get_item(item_id)
     
-    checkForbiddenAccess(item)
-    doesItemExist(item)
+    if item["user_id"] != session["user_id"]:
+        forbiddenAccess()
+    if not item:
+        notFound()
         
     title = request.form["title"]
     if not title or len(title) > 60:
-        abort(403)
+        forbiddenAccess()
     price = request.form["price"]
     if not re.search("^[1-9][0-9]{0,9}$", price):
-        abort(403)    
+        forbiddenAccess()    
     description = request.form["description"]
     if not description or len(description) > 1000:
-        abort(403)
+        forbiddenAccess()
         
     all_classes = items.get_all_classes()
     classes = []
@@ -105,9 +137,9 @@ def update_item():
         if entry:
             class_title, class_value = entry.split(":")
             if class_title not in all_classes:
-                abort(403)
+                forbiddenAccess()
             if class_value not in all_classes[class_title]:
-                abort(403)    
+                forbiddenAccess()    
             classes.append((class_title, class_value))
 
     items.update_item(item_id, title, description, price, classes)
@@ -118,8 +150,11 @@ def update_item():
 def edit_item(item_id):
     require_login()
     item = items.get_item(item_id)
-    doesItemExist(item)
-    checkForbiddenAccess(item)
+    
+    if not item:
+        notFound()
+    if item["user_id"] != session["user_id"]:
+        forbiddenAccess()
     
     all_classes = items.get_all_classes()
     classes = {}
@@ -135,8 +170,10 @@ def edit_item(item_id):
 def remove_item(item_id):
     require_login()
     item = items.get_item(item_id)
-    checkForbiddenAccess(item)
-    doesItemExist(item)
+    if item["user_id"] != session["user_id"]:
+        forbiddenAccess()
+    if not item:
+        notFound()
     if request.method == "GET":
         item = items.get_item(item_id)
         return render_template("remove_item.html", item=item)
@@ -199,18 +236,7 @@ def create():
         return "Virhe: Tunnus on jo olemassa"    
 
     return "Tunnus luotu"
-
-def checkForbiddenAccess(item):
-    if item["user_id"] != session["user_id"]:
-        abort(403)
-
-def doesItemExist(item):
-    if not item:
-        abort(404)
-
-def require_login():
-    if "user_id" not in session:
-        abort(403)        
+                
             
 
 
