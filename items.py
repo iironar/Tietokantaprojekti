@@ -31,7 +31,7 @@ def add_bid(item_id, user_id, price):
            
 def get_bids(item_id):
     
-    sql ="""SELECT bids.price, users.id, users.username
+    sql ="""SELECT bids.price, users.id user_id, users.username
             FROM bids, users
             WHERE bids.item_id = ? AND bids.user_id = users.id
             ORDER BY bids.id DESC"""

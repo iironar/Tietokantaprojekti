@@ -15,10 +15,10 @@ def require_login():
     if "user_id" not in session:
         abort(403)
 
-def forbiddenAccess():
+def forbidden_access():
     abort(403)  
 
-def notFound():
+def not_found():
     abort(404)
 
 def check_csrf():
@@ -36,7 +36,7 @@ def index():
 def show_user(user_id):
     user = users.get_user(user_id)
     if not user:
-        notFound()
+        not_found()
     items = users.get_items(user_id)
     return render_template("show_user.html", user=user,items=items)
 
@@ -56,10 +56,10 @@ def show_item(item_id):
     item = items.get_item(item_id)
     
     if not item:
-        notFound()
+        not_found()
     classes = items.get_classes(item_id)
     bids = items.get_bids(item_id)
-    return render_template("show_item.html", item=item,classes=classes, bids=bids)
+    return render_template("show_item.html", item=item, classes=classes, bids=bids)
     
 @app.route("/new_item")
 def new_item():
@@ -73,13 +73,13 @@ def create_item():
     check_csrf()
     title = request.form["title"]
     if not title or len(title) > 60:
-        forbiddenAccess()    
+        forbidden_access()    
     price = request.form["price"]
     if not re.search("^[1-9][0-9]{0,9}$", price):
-        forbiddenAccess()
+        forbidden_access()
     description = request.form["description"]
     if not description or len(description) > 1000:
-        forbiddenAccess()
+        forbidden_access()
     user_id = session["user_id"]
     
     all_classes = items.get_all_classes()
@@ -89,9 +89,9 @@ def create_item():
         if entry:
             class_title, class_value = entry.split(":")
             if class_title not in all_classes:
-                forbiddenAccess()
+                forbidden_access()
             if class_value not in all_classes[class_title]:
-                forbiddenAccess()   
+                forbidden_access()   
             classes.append((class_title, class_value))
 
     items.add_item(title,description,price,user_id, classes)
@@ -104,12 +104,12 @@ def create_bid():
     check_csrf()
     price = request.form["price"]
     if not re.search("^[1-9][0-9]{0,9}$", price):
-        forbiddenAccess()
+        forbidden_access()
     item_id = request.form["item_id"]
     item = items.get_item(item_id)
     
     if not item:
-        notFound()    
+        not_found()    
         
     user_id = session["user_id"]
     items.add_bid(item_id, user_id, price)
@@ -124,19 +124,19 @@ def update_item():
     item_id = request.form["item_id"]
     item = items.get_item(item_id)
     if item["user_id"] != session["user_id"]:
-        forbiddenAccess()
+        forbidden_access()
     if not item:
-        notFound()
+        not_found()
         
     title = request.form["title"]
     if not title or len(title) > 60:
-        forbiddenAccess()
+        forbidden_access()
     price = request.form["price"]
     if not re.search("^[1-9][0-9]{0,9}$", price):
-        forbiddenAccess()    
+        forbidden_access()    
     description = request.form["description"]
     if not description or len(description) > 1000:
-        forbiddenAccess()
+        forbidden_access()
         
     all_classes = items.get_all_classes()
     classes = []
@@ -144,9 +144,9 @@ def update_item():
         if entry:
             class_title, class_value = entry.split(":")
             if class_title not in all_classes:
-                forbiddenAccess()
+                forbidden_access()
             if class_value not in all_classes[class_title]:
-                forbiddenAccess()    
+                forbidden_access()    
             classes.append((class_title, class_value))
 
     items.update_item(item_id, title, description, price, classes)
@@ -159,9 +159,9 @@ def edit_item(item_id):
     item = items.get_item(item_id)
     
     if not item:
-        notFound()
+        not_found()
     if item["user_id"] != session["user_id"]:
-        forbiddenAccess()
+        forbidden_access()
     
     all_classes = items.get_all_classes()
     classes = {}
@@ -178,9 +178,9 @@ def remove_item(item_id):
     require_login()
     item = items.get_item(item_id)
     if item["user_id"] != session["user_id"]:
-        forbiddenAccess()
+        forbidden_access()
     if not item:
-        notFound()
+        not_found()
     if request.method == "GET":
         item = items.get_item(item_id)
         return render_template("remove_item.html", item=item)
