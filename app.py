@@ -242,7 +242,8 @@ def create():
     try:
         users.create_user(username, password1)
     except sqlite3.IntegrityError:
-        return "Virhe: Tunnus on jo olemassa"    
+        return "Virhe: Tunnus on jo olemassa" 
+               
 
     return "Tunnus luotu"
                 

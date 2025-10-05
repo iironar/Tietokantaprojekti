@@ -31,5 +31,7 @@
 
  -nyt sovelluksen pitäisi käynnistyä selaimen osoitteeseen 127.0.0.1:5000 ajamalla komento "flask run".
 
+ -Tietokantojen alustus tapahtuu ajamalla ensin "sqlite3 database.db < schema.sql" ja tämän jälkeen
+  "sqlite3 database.db < init.sql"
  
  
