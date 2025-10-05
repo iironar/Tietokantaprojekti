@@ -6,6 +6,7 @@ import db
 import items
 import re
 import users
+import secrets
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -18,7 +19,12 @@ def forbiddenAccess():
     abort(403)  
 
 def notFound():
-    abort(404)  
+    abort(404)
+
+def check_csrf():
+    
+    if "csrf_token" not in request.form:
+        abort(403)     
 
 @app.route("/")
 def index():
@@ -64,7 +70,7 @@ def new_item():
 @app.route("/create_item", methods=["POST"])
 def create_item():
     require_login()
-    
+    check_csrf()
     title = request.form["title"]
     if not title or len(title) > 60:
         forbiddenAccess()    
@@ -95,7 +101,7 @@ def create_item():
 @app.route("/create_bid", methods=["POST"])
 def create_bid():
     require_login()
-    
+    check_csrf()
     price = request.form["price"]
     if not re.search("^[1-9][0-9]{0,9}$", price):
         forbiddenAccess()
@@ -113,9 +119,10 @@ def create_bid():
 @app.route("/update_item", methods=["POST"])
 def update_item():
     require_login()
+    check_csrf()
+    
     item_id = request.form["item_id"]
     item = items.get_item(item_id)
-    
     if item["user_id"] != session["user_id"]:
         forbiddenAccess()
     if not item:
@@ -179,6 +186,7 @@ def remove_item(item_id):
         return render_template("remove_item.html", item=item)
     
     if request.method == "POST":
+        check_csrf()
         if "remove" in request.form:
             items.remove_item(item_id)
             return redirect("/")
@@ -204,6 +212,7 @@ def login():
         if user_id:
             session["user_id"] = user_id 
             session["username"] = username
+            session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         else:
             
