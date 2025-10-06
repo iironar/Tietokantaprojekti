@@ -21,17 +21,16 @@
 
  ## Sovelluksen testaus:
 
- -Luo haluamaasi paikkaan hakemisto sovellusta varten.
+ -Luo haluamaasi paikkaan hakemisto sovellusta varten ja aja hakemiston sisällä komentoikkunassa komento "git clone https://github.com/iironar/Tietokantaprojekti.git".
  
- -mene hakemistoon komentoikkunalla ja tämän jälkeen aja komento "python3 -m venv venv", joka asentaa hakemistoon virtuaaliympäristön.
+ -mene juuri kloonattuun hakemistoon komentoikkunalla ja tämän jälkeen aja komento "python3 -m venv venv", joka asentaa hakemistoon virtuaaliympäristön.
  
  -Tämän jälkeen aja komento "source venv/bin/activate" joka käynnistää virtuaaliympäristön, jonka jälkeen aja komento "pip install flask" käytettyä kirjastoa varten.
-
- -nyt aja komento "git clone https://github.com/iironar/Tietokantaprojekti.git" kansion sisällä.
+ 
+  -Tietokantojen alustus tapahtuu ajamalla ensin "sqlite3 database.db < schema.sql" ja tämän jälkeen
+  "sqlite3 database.db < init.sql"
 
  -nyt sovelluksen pitäisi käynnistyä selaimen osoitteeseen 127.0.0.1:5000 ajamalla komento "flask run".
 
- -Tietokantojen alustus tapahtuu ajamalla ensin "sqlite3 database.db < schema.sql" ja tämän jälkeen
-  "sqlite3 database.db < init.sql"
  
  
