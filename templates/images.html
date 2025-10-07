@@ -7,19 +7,28 @@
 
 <body>
     <h1>Kuvat</h1> 
-
     <p>
         Ilmoitukseen on lisätty {{ images | count }} kuvaa.
     </p>
+    <form action="/remove_images" method="post">
+    {% for image in images %}
+    <input type="checkbox" name="image_id" value="{{ image.id }}">
+    <img src="/image/{{ image.id }}" />
+    {% endfor %}
+    <input type="hidden" name="item_id" value="{{ item.id }}">
+    <p>
+    <input type="submit" value="poista valitut kuvat" />
+    </p>
+    </form>   
 
     <h2>Lisää kuva</h2>
-<form action="/add_image" method="post" enctype="multipart/form-data">
+    <form action="/add_image" method="post" enctype="multipart/form-data">
     <p>
       Kuva: <input type="file" name="image" accept=".jpg" />
     </p>
     <input type="hidden" name="item_id" value="{{ item.id }}">
     <input type="submit" value="Lähetä" />
-</form>
+    </form>
 
 
     <p>

@@ -114,6 +114,24 @@ def add_image():
     items.add_image(item_id, image)
     return redirect("/images/" + str(item_id))
 
+
+@app.route("/remove_images", methods=["POST"])
+def remove_images():
+    require_login()
+    item_id = request.form["item_id"]
+    item = items.get_item(item_id)
+    
+    if not item:
+        not_found()
+    if item["user_id"] != session["user_id"]:
+        forbidden_access()
+    
+    for image_id in request.form.getlist("image_id"):
+        items.remove_image(item_id, image_id)
+        
+    return redirect("/images/" + str(item_id))
+
+
     
 @app.route("/new_item")
 def new_item():
