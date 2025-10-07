@@ -50,7 +50,7 @@ def find_item():
         results = []
     return render_template("find_item.html", query=query,results=results)
 
-#Shows specific item and information related to it
+#Shows specific item's page
 @app.route("/item/<int:item_id>")
 def show_item(item_id):
     item = items.get_item(item_id)
@@ -58,8 +58,12 @@ def show_item(item_id):
     if not item:
         not_found()
     classes = items.get_classes(item_id)
+    vaihteisto = items.get_specific_class(item_id, 'vaihteisto')
+    tyyppi = items.get_specific_class(item_id, 'tyyppi')
     bids = items.get_bids(item_id)
-    return render_template("show_item.html", item=item, classes=classes, bids=bids)
+    minimum_bid = items.get_minimum_bid(item_id)
+    return render_template("show_item.html", item=item, classes=classes, bids=bids, minimum_bid = minimum_bid, vaihteisto = vaihteisto,
+                           tyyppi = tyyppi)
     
 @app.route("/new_item")
 def new_item():

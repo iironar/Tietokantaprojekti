@@ -35,7 +35,19 @@ def get_bids(item_id):
             FROM bids, users
             WHERE bids.item_id = ? AND bids.user_id = users.id
             ORDER BY bids.id DESC"""
-    return db.query(sql, [item_id])        
+    return db.query(sql, [item_id])
+
+def get_minimum_bid(item_id):
+    
+    sql = "SELECT price FROM items WHERE id = ?"
+    minimum_bid = int(db.query(sql, [item_id])[0][0])
+    
+    sql = "SELECT MAX(price) fROM bids WHERE item_id = ?"
+    max_price = db.query(sql, [item_id])[0][0]
+    if max_price:
+        minimum_bid = max_price + 1
+        
+    return minimum_bid        
                      
 
 
@@ -91,7 +103,16 @@ def get_classes(item_id):
     sql = "SELECT title, value FROM item_classes WHERE item_id = ?"
     return db.query(sql, [item_id])
                               
-                     
+def get_specific_class(item_id, specific_class):
+    
+    classes = get_classes(item_id)
+    
+    for class_item in classes:
+        if class_item['title'] == specific_class:
+            return class_item['value']
+    return "Ei määritelty"    
+
+                             
     
          
                       
