@@ -1,6 +1,6 @@
 import sqlite3
 from flask import Flask
-from flask import redirect, abort, render_template, request,session,flash,url_for
+from flask import redirect,make_response, abort, render_template, request,session,flash,url_for
 import config
 import db
 import items
@@ -62,8 +62,58 @@ def show_item(item_id):
     tyyppi = items.get_specific_class(item_id, 'tyyppi')
     bids = items.get_bids(item_id)
     minimum_bid = items.get_minimum_bid(item_id)
+    images = items.get_images(item_id)
     return render_template("show_item.html", item=item, classes=classes, bids=bids, minimum_bid = minimum_bid, vaihteisto = vaihteisto,
-                           tyyppi = tyyppi)
+                           tyyppi = tyyppi, images=images)
+
+@app.route("/image/<int:image_id>")
+def show_image(image_id):
+    image = items.get_image(image_id)
+    if not image:
+        not_found()
+
+    response = make_response(bytes(image))
+    response.headers.set("Content-Type", "image/jpeg")
+    return response
+
+
+@app.route("/images/<int:item_id>")
+def edit_images(item_id):
+    require_login()
+    item = items.get_item(item_id)
+    
+    if not item:
+        not_found()
+    if item["user_id"] != session["user_id"]:
+        forbidden_access()
+    
+    images = items.get_images(item_id)    
+        
+    return render_template("images.html", item=item, images=images)
+
+@app.route("/add_image", methods=["POST"])
+def add_image():
+    require_login()
+    item_id = request.form["item_id"]
+    item = items.get_item(item_id)
+    
+    if not item:
+        not_found()
+    if item["user_id"] != session["user_id"]:
+        forbidden_access()
+    
+    file = request.files["image"]
+    if not file.filename.endswith(".jpg"):
+            return "VIRHE: väärä tiedostomuoto"
+
+    image = file.read()
+    if len(image) > 100 * 1024:
+            return "VIRHE: liian suuri kuva"
+
+    
+    items.add_image(item_id, image)
+    return redirect("/images/" + str(item_id))
+
     
 @app.route("/new_item")
 def new_item():

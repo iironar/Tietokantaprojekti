@@ -12,9 +12,12 @@
   <p>
     <a href="/edit_item/{{ item.id }}">Muokkaa ilmoitusta</a>
     <a href="/remove_item/{{ item.id }}">Poista ilmoitus</a>
-    
+    <a href="/images/{{ item.id }}">Kuvat</a>
   </p>
   {% endif %}
+  {% for image in images %}
+  <img src="/image/{{ image.id }}" />
+  {% endfor %}
     <p>
         Tyyppi: {{ tyyppi }}
     </p>
