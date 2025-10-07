@@ -109,6 +109,7 @@ def create_bid():
     price = request.form["price"]
     if not re.search("^[1-9][0-9]{0,9}$", price):
         forbidden_access()
+    price = int(price)    
     item_id = request.form["item_id"]
     item = items.get_item(item_id)
     
@@ -116,6 +117,9 @@ def create_bid():
         not_found()    
         
     user_id = session["user_id"]
+    minimum_bid = items.get_minimum_bid(item_id)
+    if price < minimum_bid:
+        return "VIRHE: Suurempi tarjous on jo olemassa"
     items.add_bid(item_id, user_id, price)
     
     return redirect("/item/" + str(item_id))
