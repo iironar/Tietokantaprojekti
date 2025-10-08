@@ -1,48 +1,41 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Ilmoituksen muokkaus</title>
-</head>
+{% block title %}Ilmoituksen muokkaus{% endblock %}
 
+{%block content%}
 <body>
-    <h1>Myynti-ilmoituksen muokkaus</h1> 
-  <form action="/update_item" method="post">
-  
-    <p>
-      Malli: <br />
-      <input type="text" name="title" value="{{ item.title }}" maxlength="60" required />
-    </p>
-    <p>
-        Hinta: <br />
-        <input type="text" name="price" value="{{ item.price }}" pattern="[1-9][0-9]{0,9}" required /> 
-    </p>
-    <p>
-        Kuvaus: <br />
-        <textarea name="description" rows="6" cols="50"  maxlength="1000" required>{{ item.description }}</textarea>
-    </p>
-    <input type="hidden" name="item_id" value="{{ item.id }}"/>
-    {% for class in all_classes %}
-    <p>
-      {{ class }}: <br />
-      <select name="classes">
-        <option value="">(valitse)</option>
-      {% for option in all_classes[class] %}
-       {% if classes[class] == option %}
-         <option value ="{{ class }}:{{ option }}" selected>{{ option }}</option>
-         {% else %}
-         <option value ="{{ class }}:{{ option }}">{{ option }}</option>
-         {% endif %}
-      {% endfor %}  
-      </select>
-    </p>
-    {% endfor %}
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />   
-    <input type="submit" value="Muokkaa ilmoitusta"/>
-  </form>
-      <p>
-        <a href="/">Takaisin</a>
-    </p>
-</body>
+<h2>Myynti-ilmoituksen muokkaus</h2> 
+<form action="/update_item" method="post">
 
-</html>
+  <p>
+    Malli: <br />
+    <input type="text" name="title" value="{{ item.title }}" maxlength="60" required />
+  </p>
+  <p>
+      Hinta: <br />
+      <input type="text" name="price" value="{{ item.price }}" pattern="[1-9][0-9]{0,9}" required /> 
+  </p>
+  <p>
+      Kuvaus: <br />
+      <textarea name="description" rows="6" cols="50"  maxlength="1000" required>{{ item.description }}</textarea>
+  </p>
+  <input type="hidden" name="item_id" value="{{ item.id }}"/>
+  {% for class in all_classes %}
+  <p>
+    {{ class }}: <br />
+    <select name="classes">
+      <option value="">(valitse)</option>
+    {% for option in all_classes[class] %}
+      {% if classes[class] == option %}
+        <option value ="{{ class }}:{{ option }}" selected>{{ option }}</option>
+        {% else %}
+        <option value ="{{ class }}:{{ option }}">{{ option }}</option>
+        {% endif %}
+    {% endfor %}  
+    </select>
+  </p>
+  {% endfor %}
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />   
+  <input type="submit" value="Muokkaa ilmoitusta"/>
+</form>
+{% endblock %}

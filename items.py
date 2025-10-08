@@ -102,8 +102,13 @@ def update_item(item_id, title, description, price, classes):
 def remove_item(item_id):
     sql = "DELETE FROM item_classes WHERE item_id = ?"
     db.execute(sql, [item_id])
+    sql = "DELETE FROM images WHERE item_id = ?"
+    db.execute(sql, [item_id])
+    sql = "DELETE FROM bids WHERE item_id = ?"
+    db.execute(sql, [item_id])
     sql = "DELETE FROM items WHERE id = ?"     
     db.execute(sql, [item_id]) 
+ 
 
 def find_items(query):
     sql = """SELECT id,title

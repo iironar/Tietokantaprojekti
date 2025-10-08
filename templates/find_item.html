@@ -1,35 +1,26 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Hae autoa</title>
-</head>
+{% block title %}Hae autoa{% endblock %}
 
-<body>
-  <h1>Hae autoa<h1>
-    <form action="/find_item" method="get">
-        <p>
-            Hakusana: <input type:"text" name="query" value="{{ query }}">
+{%block content%}
+<h2>Hae autoa<h2>
+  <form action="/find_item" method="get">
+      <p>
+        Hakusana: <input type:"text" name="query" value="{{ query }}">
 
-        </p>
-        <input type="submit" value="Etsi">
+      </p>
+      <input type="submit" value="Etsi">
 
-    </form>
-    <p>
-        <a href="/">Takaisin</a>
-    </p>
+  </form>
 
-    {% if query %}
-    <h2>Hakutulokset</h2>
+  {% if query %}
+  <h2>Hakutulokset</h2>
 
-    <ul>
-    {% for result in results %}
-    <li><a href="/item/{{ result.id }}">{{ result.title }}</a></li> 
-    {% endfor %}
-    </ul>
+  <ul>
+  {% for result in results %}
+  <li><a href="/item/{{ result.id }}">{{ result.title }}</a></li> 
+  {% endfor %}
+  </ul>
 
     {% endif %}
-
-</body>
-
-</html>
+{% endblock %}

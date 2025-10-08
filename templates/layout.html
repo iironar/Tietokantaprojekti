@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+  <h1>Automarket<h1>
+
+  {% if session.username %}
+  <p>
+    Olet kirjautunut nimellä {{ session.username }}
+  </p>
+  {% endif %}
+  <p>
+    <a href="/">Etusivulle</a>
+    <a href="/find_item">Hae autoja</a>
+  {% if session.user_id %}
+    <a href="/new_item">Luo myynti-ilmoitus</a>
+    <a href="/logout">Kirjaudu ulos</a>
+  {% else %}
+    <a href="/login">Kirjaudu sisään</a>
+    <a href="/register">Rekisteröidy käyttäjäksi</a>
+  {% endif %}
+  </p>
+
+  {% block content %}{% endblock %}
+
+</body>
+
+</html>

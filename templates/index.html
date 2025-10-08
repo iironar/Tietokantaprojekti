@@ -1,38 +1,14 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Automarket</title>
-</head>
+{% block title %}Huutokauppa{% endblock %}
 
-<body>
-  <h1>Automarket<h1>
-  {% if session.username %}
-  <p>
-    Olet kirjautunut nimellä {{ session.username }}
-  </p>
-    <p>
-    <a href="/logout">Kirjaudu ulos</a>
-  </p>
-  <p>
-     <a href="/new_item">Luo myynti-ilmoitus</a>
-  </p>
-  {% else %}
-    <p>
-    <a href="/login">Kirjaudu sisään</a>
-    <a href="/register">Tunnuksen luonti</a>
-  </p>
-  {% endif %}
-  <p>
-     <a href="/find_item">Hae autoja</a>
-  </p>
-  <h2> Myynti-ilmoitukset </h2>
-  <ul> 
-  {% for item in items %}
-  <li> <a href="/item/{{ item.id }}">{{ item.title }}</a> </li> 
-  {% endfor %}
-  </ul>
+{%block content%}
+<h2> Myynti-ilmoitukset </h2>
 
-</body>
+<ul> 
+ {% for item in items %}
+ <li> <a href="/item/{{ item.id }}">{{ item.title }}</a> </li> 
+ {% endfor %}
+</ul>
 
-</html>
+{% endblock %}
