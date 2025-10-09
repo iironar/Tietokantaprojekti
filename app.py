@@ -92,6 +92,7 @@ def edit_images(item_id):
 @app.route("/add_image", methods=["POST"])
 def add_image():
     require_login()
+    check_csrf()
     item_id = request.form["item_id"]
     item = items.get_item(item_id)
     
@@ -118,6 +119,7 @@ def add_image():
 @app.route("/remove_images", methods=["POST"])
 def remove_images():
     require_login()
+    check_csrf()
     item_id = request.form["item_id"]
     item = items.get_item(item_id)
     
