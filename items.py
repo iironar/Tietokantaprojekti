@@ -41,7 +41,6 @@ def get_minimum_bid(item_id):
     
     sql = "SELECT price FROM items WHERE id = ?"
     minimum_bid = int(db.query(sql, [item_id])[0][0])
-    
     sql = "SELECT MAX(price) fROM bids WHERE item_id = ?"
     max_price = db.query(sql, [item_id])[0][0]
     if max_price:
@@ -67,7 +66,15 @@ def remove_image(item_id, image_id):
     db.execute(sql, [image_id, item_id])
 
 def get_items():
-    sql = "SELECT id, title FROM items ORDER BY id DESC"
+    sql = """SELECT items.id, items.title, users.id user_id, users.username,
+             COUNT(bids.id) bid_count,
+             MAX(bids.price) as max_bid
+             FROM items
+             JOIN users ON items.user_id = users.id
+             LEFT JOIN bids on items.id = bids.item_id
+             GROUP BY items.id, items.title, users.id, users.username
+             ORDER BY items.id DESC"""
+             
     return db.query(sql)
 
 def get_item(item_id):
