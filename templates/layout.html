@@ -21,11 +21,18 @@
   {% if session.user_id %}
     <a href="/new_item">Luo myynti-ilmoitus</a>
     <a href="/logout">Kirjaudu ulos</a>
+    <a href="/user/{{ session.user_id }}">Oma profiili</a>
   {% else %}
     <a href="/login">Kirjaudu sisään</a>
     <a href="/register">Rekisteröidy käyttäjäksi</a>
   {% endif %}
   </p>
+
+  {% for message in get_flashed_messages() %}
+  <div class="error">
+    {{ message }}
+  </div>
+  {% endfor %}
 
   {% block content %}{% endblock %}
 

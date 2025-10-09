@@ -2,7 +2,6 @@ import sqlite3
 from flask import Flask
 from flask import redirect,make_response, abort, render_template, request,session,flash,url_for
 import config
-import db
 import items
 import re
 import users
@@ -22,7 +21,6 @@ def not_found():
     abort(404)
 
 def check_csrf():
-    
     if "csrf_token" not in request.form:
         abort(403)     
 
@@ -104,11 +102,13 @@ def add_image():
     
     file = request.files["image"]
     if not file.filename.endswith(".jpg"):
-            return "VIRHE: väärä tiedostomuoto"
+            flash("VIRHE: väärä tiedostomuoto")
+            return redirect("/images/" + str(item_id))
 
     image = file.read()
     if len(image) > 100 * 1024:
-            return "VIRHE: liian suuri kuva"
+            flash("VIRHE: liian suuri kuva")
+            return redirect("/images/" + str(item_id))
 
     
     items.add_image(item_id, image)
@@ -187,7 +187,8 @@ def create_bid():
     user_id = session["user_id"]
     minimum_bid = items.get_minimum_bid(item_id)
     if price < minimum_bid:
-        return "VIRHE: Suurempi tarjous on jo olemassa"
+        flash("VIRHE: suurempi tarjous on jo olemassa")
+        return redirect("/item/" + str(item_id))
     items.add_bid(item_id, user_id, price)
     
     return redirect("/item/" + str(item_id))
@@ -291,8 +292,8 @@ def login():
             session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         else:
-            
-            return render_template("login.html")
+            flash("VIRHE: käyttäjänimi tai salasana on virheellinen")
+            return redirect("/login")
 
 @app.route("/logout")
 def logout():
@@ -313,15 +314,17 @@ def create():
     password1 = request.form["password1"]
     password2 = request.form["password2"]
     if password1 != password2:
-        return "VIRHE: salasanat eivät täsmää"
+        flash("VIRHE: salasanat eivät täsmää")
+        return redirect("/register")
     
     try:
         users.create_user(username, password1)
     except sqlite3.IntegrityError:
-        return "Virhe: Tunnus on jo olemassa" 
+        flash("VIRHE: tunnus on jo olemassa")
+        return redirect("/register")
                
 
-    return "Tunnus luotu"
+    return redirect("/")
                 
             
 
