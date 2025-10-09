@@ -14,14 +14,17 @@ def get_all_classes():
     return classes        
         
     
-def add_item(title,description,price,user_id,classes):
+def add_item(title, description, price, user_id, classes):
     sql = "INSERT INTO items (title, price, description, user_id) VALUES (?, ?, ?, ?)"
     db.execute(sql, [title, price, description, user_id])
-    sql = "INSERT INTO item_classes (item_id, title, value) VALUES (?, ?, ?)"
+    
     
     item_id = db.last_insert_id()
+    sql = "INSERT INTO item_classes (item_id, title, value) VALUES (?, ?, ?)"
     for title, value in classes:
         db.execute(sql ,[item_id ,title ,value])
+        
+    return item_id  
 
 
 def add_bid(item_id, user_id, price):
