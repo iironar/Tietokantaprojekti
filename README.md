@@ -12,6 +12,8 @@
 
  -myynti-ilmoituksille voi asettaa luokkia ja niihin voi liittää kuvia
 
+ -kuvia voi liittää .jpeg .jpg ja .png tiedostoina
+
  -Etusivulla on näkymä sovelluksessa olevista myynti-ilmoituksista
 
  -Myynti-ilmoituksilla on omat sivut, jossa on ilmoituksen tiedot ja kuvat
