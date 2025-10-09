@@ -167,8 +167,8 @@ def create_item():
             classes.append((class_title, class_value))
 
     items.add_item(title,description,price,user_id, classes)
-    
-    return redirect("/")
+    item_id = db.last_insert_id()
+    return redirect("/item/" + str(item_id))
 
 @app.route("/create_bid", methods=["POST"])
 def create_bid():

@@ -24,13 +24,14 @@
   <p>
       Hinta: {{ item.price }}€
   </p>
+   <p>
+      Myyjä: <a href="/user/{{item.user_id}}"> {{ item.username }}</a>
+  </p>
   <p>
+    Lisätiedot: <br />
       {{item.description}}
   </p>
 
-  <p>
-      Myyjä: <a href="/user/{{item.user_id}}"> {{ item.username }}</a>
-  </p>
   {#
   {% if classes %}
   <p>
@@ -49,6 +50,7 @@
   <li>{{ bid.price }}€, <a href="/user/{{ bid.user_id }}">{{ bid.username }}</a></li>
   {% endfor %}
   </ul>
+  {% if session.user_id%}
   <h3>Uusi huuto</h3>
   <form action="/create_bid" method="post">
     Tarjous: <br />
@@ -56,6 +58,8 @@
     <input type="hidden" name="item_id" value="{{ item.id }}">
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value="Huuda" />
-
+  {% else %}
+  Kirjaudu sisään tai rekisteröidy käyttäjäksi huutaaksesi
+  {% endif %}
   </form>
 {% endblock %}
