@@ -1,11 +1,12 @@
 import sqlite3
 from flask import Flask
-from flask import redirect,make_response, abort, render_template, request,session,flash,url_for
+from flask import redirect,make_response, abort, render_template, request,session,flash
 import config
 import items
 import re
 import users
 import secrets
+import markupsafe
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -22,7 +23,13 @@ def not_found():
 
 def check_csrf():
     if "csrf_token" not in request.form:
-        abort(403)     
+        abort(403)
+
+@app.template_filter()
+def show_lines(content):
+    content = str(markupsafe.escape(content))
+    content = content.replace("\n", "<br />")
+    return markupsafe.Markup(content)             
 
 @app.route("/")
 def index():
