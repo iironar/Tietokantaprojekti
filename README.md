@@ -1,7 +1,8 @@
-# Tietokantaprojekti
+# Automarket
 
-## Tähän mennessä toteutettu toiminnallisuus:
+## Sovelluksen ominaisuudet:
 
+ -Sovelluksen tarkoitusena on olla myyntisivusto autoja varten
 
  -Käyttäjä voi luoda tunnuksen sivustolle
  
@@ -9,15 +10,17 @@
 
  -Käyttäjällä on oma sivu jossa kerrotaan myynti-ilmoitusten määrä, jotka ovat myös näkyvillä
 
- -myynti-ilmoituksille voi asettaa luokkia
+ -myynti-ilmoituksille voi asettaa luokkia ja niihin voi liittää kuvia
 
  -Etusivulla on näkymä sovelluksessa olevista myynti-ilmoituksista
 
- -Myynti-ilmoituksilla on omat sivut, jossa on ilmoituksen informaatiota
+ -Myynti-ilmoituksilla on omat sivut, jossa on ilmoituksen tiedot ja kuvat
 
  -Myynti-ilmoituksia voi hakea hakusanoilla
 
- -Myynti-ilmoituksiin voi laittaa huutoja
+ -Myynti-ilmoituksiin voi laittaa tarjouksia
+
+ -Toiminaallisuutta on hajautettu rekisteröityneiden käyttäjien ja vierailijoiden välillä
 
  ## Sovelluksen testaus:
 
