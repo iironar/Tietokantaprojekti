@@ -109,7 +109,7 @@ def add_image():
         forbidden_access()
     
     file = request.files["image"]
-    if not file.filename.endswith(".jpg"):
+    if not file.filename.lower().endswith(('.jpg', '.jpeg', '.png')):
             flash("VIRHE: väärä tiedostomuoto")
             return redirect("/images/" + str(item_id))
 
@@ -322,17 +322,24 @@ def create():
     username = request.form["username"]
     password1 = request.form["password1"]
     password2 = request.form["password2"]
+    
+    if not username:
+        flash("VIRHE: käyttäjänimi ei voi olla tyhjä")
+        return redirect("/register")
+    if not password1:
+        flash("VIRHE: salasana ei voi olla tyhjä")
+        return redirect("/register")
     if password1 != password2:
         flash("VIRHE: salasanat eivät täsmää")
         return redirect("/register")
-    
+
     try:
         users.create_user(username, password1)
     except sqlite3.IntegrityError:
         flash("VIRHE: tunnus on jo olemassa")
         return redirect("/register")
                
-
+    flash("Tunnus luotu onnistuneesti!")
     return redirect("/")
                 
             

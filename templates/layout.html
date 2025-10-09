@@ -6,25 +6,28 @@
   <link rel="stylesheet" href="/static/main.css">
 
 </head>
-
+<h1>Automarket</h1>
 <body>
-  <h1>Automarket<h1>
-
   {% if session.username %}
   <p>
-    Olet kirjautunut nimellä {{ session.username }}
+    Hei {{ session.username }}, mitä laitetaan?
+  </p>
+  {% else %}
+  <p>
+    Jos haluat ostaa tai myydä autoja, kirjaudu sisään tai rekisteröidy ilmaiseksi!
   </p>
   {% endif %}
   <p>
-    <a href="/">Etusivulle</a>
-    <a href="/find_item">Hae autoja</a>
+    <a href="/" class="button">Etusivulle</a>
+    <a href="/find_item" class="button">Hae autoja</a>
   {% if session.user_id %}
-    <a href="/new_item">Luo myynti-ilmoitus</a>
-    <a href="/logout">Kirjaudu ulos</a>
-    <a href="/user/{{ session.user_id }}">Oma profiili</a>
+    <a href="/new_item" class="button">Luo myynti-ilmoitus</a>
+    <a href="/user/{{ session.user_id }}" class="button">Oma profiili</a>
+    <a href="/logout" class="button">Kirjaudu ulos</a>
+    
   {% else %}
-    <a href="/login">Kirjaudu sisään</a>
-    <a href="/register">Rekisteröidy käyttäjäksi</a>
+    <a href="/login" class="button">Kirjaudu sisään</a>
+    <a href="/register" class="button">Rekisteröidy käyttäjäksi</a>
   {% endif %}
   </p>
 
