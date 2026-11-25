@@ -4,6 +4,15 @@ Before installing the application, make sure you have installed python 3
 
 ### 1. Clone the repository
 
+Clone the repository anywhere you want and move inside the source directory.
+
+You can also copypaste these commands
+
+```bash
+git clone https://github.com/iironar/Tietokantaprojekti.git
+cd Tietokantaprojekti
+```
+
 ### 2. Create a virtual environment
 
 Create a Python virtual environment using the following commands.
