@@ -5,6 +5,7 @@ This application is supposed to be auction for vehicles created for another cour
 ## Installation and Setup
 
 Before installing the application, make sure you have installed Python 3
+
 This project uses SQLite, which is included in Python 3
 
 ### 1. Clone the repository
