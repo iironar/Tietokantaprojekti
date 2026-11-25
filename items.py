@@ -139,7 +139,7 @@ def get_specific_class(item_id, specific_class):
     for class_item in classes:
         if class_item['title'] == specific_class:
             return class_item['value']
-    return "Ei määritelty"    
+    return "Not defined"    
 
                              
     

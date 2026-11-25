@@ -1,22 +1,22 @@
 {% extends "layout.html" %}
 
-{% block title %}Kuvat{% endblock %}
+{% block title %}Images{% endblock %}
 
 {%block content%}
 <body>
-  <h2>Kuvat</h2> 
+  <h2>Images</h2> 
   <p>
-      Ilmoitukseesi on lisätty {{ images | count }} kuvaa.
+      Sales notice has {{ images | count }} pictures.
   </p>
   <form action="/remove_images" method="post">
   {% for image in images %}
   <input type="checkbox" name="image_id" value="{{ image.id }}">
-  <img src="/image/{{ image.id }}" alt="Ilmoituksen kuva" />
+  <img src="/image/{{ image.id }}" alt="Image" />
   {% endfor %}
   <input type="hidden" name="item_id" value="{{ item.id }}">
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" /> 
   <p>
-  <input type="submit" value="poista valitut kuvat" />
+  <input type="submit" value="Remove selected images" />
   </p>
   </form>   
 
@@ -27,9 +27,9 @@
   </p>
   <input type="hidden" name="item_id" value="{{ item.id }}">
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" /> 
-  <input type="submit" value="Lähetä" />
+  <input type="submit" value="Send" />
   </form>
   <p>
-  <a href="/item/{{ item.id }}">Takaisin ilmoitukseen</a>
+  <a href="/item/{{ item.id }}">Back</a>
 </p>
 {% endblock %}

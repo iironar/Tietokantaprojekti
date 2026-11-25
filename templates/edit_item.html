@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
 
-{% block title %}Ilmoituksen muokkaus{% endblock %}
+{% block title %}Edit{% endblock %}
 
 {%block content%}
 <body>
-<h2>Myynti-ilmoituksen muokkaus</h2> 
+<h2>Edit</h2> 
 
 <form action="/update_item" method="post">
   <input type="hidden" name="item_id" value="{{ item.id }}"/>
@@ -12,7 +12,7 @@
   <p>
     <label for="class{{ class }}">{{ class }}</a>: <br />
     <select name="classes" id="class{{ class }}">
-      <option value="">(valitse)</option>
+      <option value="">(Choose)</option>
     {% for option in all_classes[class] %}
       {% if classes[class] == option %}
         <option value ="{{ class }}:{{ option }}" selected>{{ option }}</option>
@@ -25,22 +25,22 @@
   {% endfor %}
 
   <p>
-    <label for="title">Malli</label>: <br />
+    <label for="title">Title</label>: <br />
     <input type="text" name="title" id="title" value="{{ item.title }}" maxlength="60" required />
   </p>
   <p>
-      <label for="price">Hinta</label>: <br />
+      <label for="price">Price</label>: <br />
       <input type="text" name="price" id="price" value="{{ item.price }}" pattern="[1-9][0-9]{0,9}" required /> 
   </p>
   <p>
-      <label for="description">Lisätiedot</label>: <br />
+      <label for="description">Description</label>: <br />
       <textarea name="description" id="description" rows="6" cols="50"  maxlength="1000" required>{{ item.description }}</textarea>
   </p>
 
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />   
-  <input type="submit" value="Muokkaa ilmoitusta"/>
+  <input type="submit" value="Edit announcement"/>
 </form>
 <p>
-  <a href="/item/{{ item.id }}">Takaisin ilmoitukseen</a>
+  <a href="/item/{{ item.id }}">Back</a>
 </p>
 {% endblock %}

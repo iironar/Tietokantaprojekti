@@ -7,29 +7,29 @@
 
     {% if session.user_id == item.user_id %}
 <p>
-  <a href="/edit_item/{{ item.id }}">Muokkaa ilmoitusta</a>
-  <a href="/remove_item/{{ item.id }}">Poista ilmoitus</a>
-  <a href="/images/{{ item.id }}">Kuvat</a>
+  <a href="/edit_item/{{ item.id }}">Edit announcement</a>
+  <a href="/remove_item/{{ item.id }}">Delete announcement</a>
+  <a href="/images/{{ item.id }}">Pictures</a>
 </p>
 {% endif %}
 {% for image in images %}
-<img src="/image/{{ image.id }}" alt="Ilmoituksen kuva" /><br />
+<img src="/image/{{ image.id }}" alt="Image" /><br />
 {% endfor %}
- <h3>Perustiedot:</h3>
+ <h3>Info:</h3>
   <div class = "basic_info">
-      Tyyppi: {{ tyyppi }}<br />
-      Vaihteisto: {{ vaihteisto }}<br />
-      Hinta: {{ item.price }}€<br />
-      Myyjä: <a href="/user/{{item.user_id}}"> {{ item.username }}</a><br />
+      Type: {{ tyyppi }}<br />
+      Transmission: {{ vaihteisto }}<br />
+      Price: {{ item.price }}€<br />
+      Seller: <a href="/user/{{item.user_id}}"> {{ item.username }}</a><br />
   </div>
   <p>
-    <h3>Lisätiedot:</h3>
+    <h3>Description:</h3>
     <div class = "description">
       {{item.description | show_lines }}
   </p>
     </div>
 
-  <h3>Huudot:</h3>
+  <h3>Bids:</h3>
 
     <div class = "bids">
   {% for bid in bids %}
@@ -38,15 +38,15 @@
 
   </div>
   {% if session.user_id%}
-  <h3>Tee uusi tarjous:</h3>
+  <h3>Make a new bid:</h3>
   <form action="/create_bid" method="post">
     <input type="text" name="price" value = {{ minimum_bid }} pattern="[1-9][0-9]{0,15}" required />
     <input type="hidden" name="item_id" value="{{ item.id }}">
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-    <input type="submit" value="Lähetä tarjous" />
+    <input type="submit" value="Send" />
   {% else %}
   <br />
-  Kirjaudu sisään tai rekisteröidy ilmaiseksi huutaaksesi kohteesta!
+  Login or register for free to bid on this item!
   {% endif %}
   </form>
 {% endblock %}

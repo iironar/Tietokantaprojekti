@@ -1,16 +1,16 @@
 {% extends "layout.html" %}
 
-{% block title %}Myynti-ilmoitus{% endblock %}
+{% block title %}Sale announcement{% endblock %}
 
 {%block content%}
-<h2>Myynti-ilmoituksen luonti</h2> 
+<h2>Create sale announcement</h2> 
 <form action="/create_item" method="post">
 
   {% for class in classes %}
   <p>
     <label for="class{{ class }}">{{ class }}</label>: <br />
     <select name="classes" id ="class{{ class }}">
-      <option value="">(valitse)</option>
+      <option value="">(choose)</option>
     {%for option in classes[class] %}
         <option value ="{{ class }}:{{ option }}">{{option}}</option>
     {% endfor %}  
@@ -19,18 +19,18 @@
   </p>
   {% endfor %}
   <p>
-    <label for="title">Merkki:</label><br />
+    <label for="title">Title:</label><br />
     <input type="text" name="title" id="title" maxlength="60" required />
   </p>
   <p>
-      <label for="price">Hinta:</label><br />
+      <label for="price">Price:</label><br />
       <input type="text" name="price" id="price" pattern="[1-9][0-9]{0,15}" required /> 
   </p>
   <p>
-      <label for="description">Lisätiedot:</label><br />
+      <label for="description">Description:</label><br />
       <textarea name="description" id="description" rows="6" cols="50" maxlength="1000" required ></textarea>
   </p>
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-  <input type="submit" value="Luo ilmoitus" />
+  <input type="submit" value="Create announcement" />
 </form>
 {% endblock %}

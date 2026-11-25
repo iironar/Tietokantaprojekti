@@ -1,16 +1,16 @@
 {% extends "layout.html" %}
 
-{% block title %}Ilmoituksen poisto{% endblock %}
+{% block title %}Delete announcement{% endblock %}
 
 {%block content%}
 <body>
-  <h2>Myynti-ilmoituksen poisto</h2> 
+  <h2>Delete announcement</h2> 
   
-  <p>Haluatko varmasti poistaa ilmoituksen?</p>
+  <p>Are you sure you want to delete this announcement?</p>
 <form action="/remove_item/{{item.id}}" method="post">
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-  <input type="submit" name="remove" value="Poista ilmoitus">
-  <input type="submit" name="back" value="Takaisin">
+  <input type="submit" name="remove" value="Remove">
+  <input type="submit" name="back" value="Back">
   
 </form>
 </body>

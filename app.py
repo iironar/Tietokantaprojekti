@@ -110,12 +110,12 @@ def add_image():
     
     file = request.files["image"]
     if not file.filename.lower().endswith(('.jpg', '.jpeg', '.png')):
-            flash("VIRHE: väärä tiedostomuoto")
+            flash("ERROR: wrong filetype")
             return redirect("/images/" + str(item_id))
 
     image = file.read()
     if len(image) > 100 * 1024:
-            flash("VIRHE: liian suuri kuva")
+            flash("ERROR: Image size is too big")
             return redirect("/images/" + str(item_id))
 
     
@@ -196,7 +196,7 @@ def create_bid():
     user_id = session["user_id"]
     minimum_bid = items.get_minimum_bid(item_id)
     if price < minimum_bid:
-        flash("VIRHE: suurempi tarjous on jo olemassa")
+        flash("ERROR: Bigger bid already exists")
         return redirect("/item/" + str(item_id))
     items.add_bid(item_id, user_id, price)
     
@@ -301,7 +301,7 @@ def login():
             session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         else:
-            flash("VIRHE: käyttäjänimi tai salasana on virheellinen")
+            flash("ERROR: Username or password is wrong")
             return redirect("/login")
 
 @app.route("/logout")
@@ -324,22 +324,22 @@ def create():
     password2 = request.form["password2"]
     
     if not username:
-        flash("VIRHE: käyttäjänimi ei voi olla tyhjä")
+        flash("ERROR: username cannot be empty")
         return redirect("/register")
     if not password1:
-        flash("VIRHE: salasana ei voi olla tyhjä")
+        flash("ERROR: password cannot be empty")
         return redirect("/register")
     if password1 != password2:
-        flash("VIRHE: salasanat eivät täsmää")
+        flash("ERROR: passwords do not match")
         return redirect("/register")
 
     try:
         users.create_user(username, password1)
     except sqlite3.IntegrityError:
-        flash("VIRHE: tunnus on jo olemassa")
+        flash("ERROR: username already exists")
         return redirect("/register")
                
-    flash("Tunnus luotu onnistuneesti!")
+    flash("Account created successfully")
     return redirect("/")
                 
             

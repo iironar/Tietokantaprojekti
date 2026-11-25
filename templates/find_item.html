@@ -1,21 +1,21 @@
 {% extends "layout.html" %}
 
-{% block title %}Hae autoa{% endblock %}
+{% block title %}Search{% endblock %}
 
 {%block content%}
 
   <form action="/find_item" method="get">
       <p>
-        <label for="query">Hakusana:</label><br />
+        <label for="query">Keyword:</label><br />
         <input type:"text" name="query" id="query" value="{{ query }}">
 
       </p>
-      <input type="submit" value="Etsi">
+      <input type="submit" value="search">
 
   </form>
 
   {% if query %}
-  <h3>Hakutulokset</h3>
+  <h3>Results:</h3>
 
   <ul>
   {% for result in results %}
