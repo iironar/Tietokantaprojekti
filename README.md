@@ -6,7 +6,7 @@ Before installing the application, make sure you have installed python 3
 
 ### 2. Create a virtual environment
 
-Create a Python virtual environment using the following command.
+Create a Python virtual environment using the following commands.
 
 **Linux and macOS:**
 
