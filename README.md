@@ -1,41 +1,84 @@
-# Automarket
+## Installation and Setup
 
-## Sovelluksen ominaisuudet:
+Before installing the application, make sure you have installed python 3
 
- -Sovelluksen tarkoitusena on olla myyntisivusto autoja varten
+### 1. Clone the repository
 
- -Käyttäjä voi luoda tunnuksen sivustolle
- 
- -Käyttäjä voi luoda myynti-ilmoituksen sivustolle, joita voi myös jälkeenpäin muokata ja poistaa
+### 2. Create a virtual environment
 
- -Käyttäjällä on oma sivu jossa kerrotaan myynti-ilmoitusten määrä, jotka ovat myös näkyvillä
+Create a Python virtual environment using the following command.
 
- -myynti-ilmoituksille voi asettaa luokkia ja niihin voi liittää kuvia
+**Linux and macOS:**
 
- -kuvia voi liittää .jpeg .jpg ja .png tiedostoina
+```bash
+python3 -m venv venv
+```
 
- -Etusivulla on näkymä sovelluksessa olevista myynti-ilmoituksista
+**Windows:**
 
- -Myynti-ilmoituksilla on omat sivut, jossa on ilmoituksen tiedot ja kuvat
+```powershell
+py -m venv venv
+```
 
- -Myynti-ilmoituksia voi hakea hakusanoilla
+### 3. Activate the virtual environment
 
- -Myynti-ilmoituksiin voi laittaa tarjouksia
+**Linux and macOS:**
 
- -Toiminaallisuutta on hajautettu rekisteröityneiden käyttäjien ja vierailijoiden välillä
+```bash
+source venv/bin/activate
+```
 
- ## Sovelluksen testaus:
+**Windows (PowerShell):**
 
- -Luo haluamaasi paikkaan hakemisto sovellusta varten ja aja hakemiston sisällä komentoikkunassa komento "git clone https://github.com/iironar/Tietokantaprojekti.git".
- 
- -mene juuri kloonattuun hakemistoon komentoikkunalla ja tämän jälkeen aja komento "python3 -m venv venv", joka asentaa hakemistoon virtuaaliympäristön.
- 
- -Tämän jälkeen aja komento "source venv/bin/activate" joka käynnistää virtuaaliympäristön, jonka jälkeen aja komento "pip install flask" käytettyä kirjastoa varten.
- 
-  -Tietokantojen alustus tapahtuu ajamalla ensin "sqlite3 database.db < schema.sql" ja tämän jälkeen
-  "sqlite3 database.db < init.sql"
+```powershell
+venv\Scripts\Activate.ps1
+```
 
- -nyt sovelluksen pitäisi käynnistyä selaimen osoitteeseen 127.0.0.1:5000 ajamalla komento "flask run".
+**Windows (CMD):**
+
+```cmd
+venv\Scripts\activate.bat
+```
+
+### 4. Install dependencies
+
+Install Flask inside the virtual environment:
+
+```bash
+python -m pip install flask
+```
+
+### 5. Initialize the database
+
+Run the following commands from the project's root directory:
+
+```bash
+python -c "import sqlite3; c=sqlite3.connect('database.db'); c.executescript(open('schema.sql', encoding='utf-8').read()); c.close()"
+```
+
+```bash
+python -c "import sqlite3; c=sqlite3.connect('database.db'); c.executescript(open('init.sql', encoding='utf-8').read()); c.close()"
+```
+
+These commands create the database and execute the needed SQL statements in the initialization files.
+
+### 6. Run the application
+
+Start the Flask application:
+
+```bash
+flask --app app run
+```
+
+The application will be available in your browser at:
+
+http://127.0.0.1:5000
+
+When you are finished, you can deactivate the virtual environment using:
+
+```bash
+deactivate
+```
 
  
  
