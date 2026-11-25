@@ -1,3 +1,5 @@
+This application is supposed to be auction for vehicles created for another course, now repurposed to showcase cybersecurity flaws for cybersecurity part VII
+
 ## Installation and Setup
 
 Before installing the application, make sure you have installed python 3
