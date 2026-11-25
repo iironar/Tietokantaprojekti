@@ -1,8 +1,11 @@
+## About the repository
+
 This application is supposed to be auction for vehicles created for another course, now repurposed to showcase cybersecurity flaws for cybersecurity part VII
 
 ## Installation and Setup
 
-Before installing the application, make sure you have installed python 3
+Before installing the application, make sure you have installed Python 3
+This project uses SQLite, which is included in Python 3
 
 ### 1. Clone the repository
 
